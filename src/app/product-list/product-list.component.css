@@ -1,0 +1,14 @@
+th {
+    padding-right: 100px;
+}
+
+th,
+td {
+    border-bottom: 1px solid #bbb;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+img {
+    width: 60px;
+}
