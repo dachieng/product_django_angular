@@ -1,6 +1,6 @@
 <div class="card mt-3">
     <div class="card-header text-center">
-        {{pageTitle}}
+        <h4>{{pageTitle}}</h4>
     </div>
     <div class="card-body">
         <div class="row">
@@ -35,18 +35,25 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let product of products">
+                <tr *ngFor="let product of filteredProducts">
                     <td>
                         <img [src]="product.imageUrl" [title]="product.productName" *ngIf="showImage">
                     </td>
-                    <td>{{product.productName}}</td>
-                    <td>{{product.productCode | lowercase}}</td>
+                    <td>
+                        <a [routerLink]="['/products', product.productId ]">{{product.productName}}</a>
+                    </td>
+                    <td>{{product.productCode | lowercase | convertToSpacesPipe:"-"}}</td>
                     <td>{{product.releaseDate | date}}</td>
                     <td>{{product.price | currency}}</td>
-                    <td>{{product.starRating}}</td>
+                    <td>
+                        <product-star [rating]="product.starRating" (notify)="ratingClicked($event)"></product-star>
+                    </td>
 
                 </tr>
             </tbody>
         </table>
+        <div *ngIf='errorMessage' class='alert alert-danger'>
+            Error: {{ errorMessage }}
+        </div>
     </div>
 </div>

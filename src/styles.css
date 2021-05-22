@@ -1,8 +1,10 @@
+@import "~font-awesome/css/font-awesome.css";
 * {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.card-header {
+.card-header,
+.card-footer {
     background-color: #fff;
     border: 0 0 1px 0 solid #bbb;
 }

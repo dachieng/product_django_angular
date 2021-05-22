@@ -1,10 +1,11 @@
 th {
-    padding-right: 100px;
+    padding-right: 110px;
+    color: #03034d;
+    padding-bottom: 20px;
 }
 
-th,
 td {
-    border-bottom: 1px solid #bbb;
+    border-top: 1px solid #bbb;
     padding-top: 20px;
     padding-bottom: 20px;
 }

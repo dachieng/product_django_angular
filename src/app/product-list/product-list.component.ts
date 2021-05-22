@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IProduct } from '../product';
+import { ProductService } from '../product/product.service';
 
 @Component({
   selector: 'product-product-list',
@@ -8,37 +9,55 @@ import { IProduct } from '../product';
 })
 export class ProductListComponent implements OnInit {
 
-  constructor() { }
+  constructor(private productService:ProductService) { 
+    this.listFilter = ''
+  }
+
   pageTitle = "Product List"
   showImage:boolean = false
-  listFilter:string = "cart"
-  products:IProduct[]= [
-    {
-      "productId": 1,
-      "productName": "Leaf Rake",
-      "productCode": "GDN-0011",
-      "releaseDate": "March 19, 2021",
-      "description": "Leaf rake with 48-inch wooden handle.",
-      "price": 19.95,
-      "starRating": 3.2,
-      "imageUrl": "assets/images/leaf_rake.png"
-  },
-  {
-      "productId": 2,
-      "productName": "Garden Cart",
-      "productCode": "GDN-0023",
-      "releaseDate": "March 18, 2021",
-      "description": "15 gallon capacity rolling garden cart",
-      "price": 32.99,
-      "starRating": 4.2,
-      "imageUrl": "assets/images/garden_cart.png"
+  _listFilter:string
+  errorMessage:any
+
+  get listFilter():string{
+    return this._listFilter
   }
-  ]
+
+  set listFilter(value:string){
+    this._listFilter = value
+    this.filteredProducts = this.listFilter ? this.performFilter(this.listFilter) : this.products
+  }
+
+  filteredProducts:IProduct[]
+  products:IProduct[] = [];
+
   ngOnInit(): void {
+    this.productService.getProducts().subscribe(
+      products => {
+        this.products = products
+        this.filteredProducts = this.products
+      },
+      error => this.errorMessage = <any>error
+
+    )
+    
+
   }
 
   toggleImage():void{
     this.showImage = !this.showImage
   }
 
+  performFilter(filterBy:string):IProduct[]{
+    filterBy = filterBy.toLocaleLowerCase()
+
+    return this.products.filter((product:IProduct)=>
+      product.productName.toLocaleLowerCase().indexOf(filterBy) !== -1
+    )
+  }
+
+  ratingClicked(message:string){
+    this.pageTitle = this.pageTitle + " : " + message
+  }
+
+  
 }
